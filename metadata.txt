@@ -26,12 +26,63 @@
                     'nombre_pieces_principales', 
                     'nature_culture',
                     'nature_culture_speciale', 
-                    'surface_terrain',
-                    'year')
-    }
+                    'surface_terrain'),
+        manipulation: "New column: year"
+    },
 
-    data-sncf:
+    dataidf-ecoles-et-lycees:
     {
-        
+        title: 'Ecoles IDF',
+        file: 'dataidf-ecoles.csv',
+        link: "https://data.iledefrance.fr/explore/dataset/les_etablissements_d_enseignement_des_1er_et_2d_degres_en_idf/information/?disjunctive.nature_uai&disjunctive.nature_uai_libe&disjunctive.code_departement&disjunctive.code_region&disjunctive.code_academie&disjunctive.secteur_prive_code_type_contrat&disjunctive.secteur_prive_libelle_type_contrat&disjunctive.code_ministere&disjunctive.libelle_ministere",
+        columns: ('nature', 'code_postal'),
+        manipulation: "Create column type_etablissement with 4 categories (maternelles, lycees, colleges, elementaire) and count the ocurrances of each by code_postal"
+    },
+
+    data-sncf-geocoordinates:
+    {
+        title: "SNCF - Geocoordinates",
+        file: "sncf-geocoordinates.csv",
+        link: "https://ressources.data.sncf.com/explore/dataset/referentiel-gares-voyageurs/information/?disjunctive.gare_ug_libelle&sort=gare_alias_libelle_noncontraint&dataChart=eyJxdWVyaWVzIjpbeyJjaGFydHMiOlt7InR5cGUiOiJ0cmVlbWFwIiwiZnVuYyI6IkNPVU5UIiwieUF4aXMiOiJuaXZlYXVzZXJ2aWNlX2xpYmVsbGUiLCJzY2llbnRpZmljRGlzcGxheSI6dHJ1ZSwiY29sb3IiOiJyYW5nZS1jdXN0b20ifV0sInhBeGlzIjoiZ2FyZV9yZWdpb25zbmNmX2xpYmVsbGUiLCJtYXhwb2ludHMiOiIiLCJ0aW1lc2NhbGUiOiIiLCJzb3J0IjoiIiwic2VyaWVzQnJlYWtkb3duIjoiIiwic2VyaWVzQnJlYWtkb3duVGltZXNjYWxlIjoiIiwiY29uZmlnIjp7ImRhdGFzZXQiOiJyZWZlcmVudGllbC1nYXJlcy12b3lhZ2V1cnMiLCJvcHRpb25zIjp7ImRpc2p1bmN0aXZlLmdhcmVfdWdfbGliZWxsZSI6dHJ1ZSwic29ydCI6ImdhcmVfYWxpYXNfbGliZWxsZV9ub25jb250cmFpbnQifX19XSwiZGlzcGxheUxlZ2VuZCI6dHJ1ZSwiYWxpZ25Nb250aCI6dHJ1ZSwidGltZXNjYWxlIjoiIn0%3D",
+        columns: ('code_uic', 'code_postal', 'code_departement', 'latitude', 'longitude')
+        manipulation: ""        
+    },
+
+    data-sncf-gare-count:
+    {
+        title: "SNCF - Count of gares per code postal",
+        file: "sncf-gare-count.csv",
+        link: "https://ressources.data.sncf.com/explore/dataset/referentiel-gares-voyageurs/information/?disjunctive.gare_ug_libelle&sort=gare_alias_libelle_noncontraint&dataChart=eyJxdWVyaWVzIjpbeyJjaGFydHMiOlt7InR5cGUiOiJ0cmVlbWFwIiwiZnVuYyI6IkNPVU5UIiwieUF4aXMiOiJuaXZlYXVzZXJ2aWNlX2xpYmVsbGUiLCJzY2llbnRpZmljRGlzcGxheSI6dHJ1ZSwiY29sb3IiOiJyYW5nZS1jdXN0b20ifV0sInhBeGlzIjoiZ2FyZV9yZWdpb25zbmNmX2xpYmVsbGUiLCJtYXhwb2ludHMiOiIiLCJ0aW1lc2NhbGUiOiIiLCJzb3J0IjoiIiwic2VyaWVzQnJlYWtkb3duIjoiIiwic2VyaWVzQnJlYWtkb3duVGltZXNjYWxlIjoiIiwiY29uZmlnIjp7ImRhdGFzZXQiOiJyZWZlcmVudGllbC1nYXJlcy12b3lhZ2V1cnMiLCJvcHRpb25zIjp7ImRpc2p1bmN0aXZlLmdhcmVfdWdfbGliZWxsZSI6dHJ1ZSwic29ydCI6ImdhcmVfYWxpYXNfbGliZWxsZV9ub25jb250cmFpbnQifX19XSwiZGlzcGxheUxlZ2VuZCI6dHJ1ZSwiYWxpZ25Nb250aCI6dHJ1ZSwidGltZXNjYWxlIjoiIn0%3D",
+        columns: ('code_uic', 'code_postal', 'code_departement'),
+        manipulation: "Group by `code_postal` and count gares (`code_uic`)"
+    },
+
+    data-ratp-geocoordinates:
+    {
+        title: "RATP - Geocoordinates",
+        file: "ratp-geocoordinates.csv",
+        link: ("https://data.ratp.fr/explore/dataset/positions-geographiques-des-stations-du-reseau-ratp/information/?disjunctive.stop_name",
+               "https://data.ratp.fr/explore/dataset/accessibilite-des-gares-et-stations-metro-et-rer-ratp/information/"),
+        columns: ('stop_id', 'code_departement', 'code_postal', 'stop_lat', 'stop_lon')
+        manipulation: "Join two datasets to get only metro and RER stations, drop duplicate rows on stop name"
+    },
+
+    data-ratp-gare-count:
+    {
+        title: "RATP - Count of gares per code postal",
+        file: "ratp-gare-count.csv",
+        link: ("https://data.ratp.fr/explore/dataset/positions-geographiques-des-stations-du-reseau-ratp/information/?disjunctive.stop_name",
+               "https://data.ratp.fr/explore/dataset/accessibilite-des-gares-et-stations-metro-et-rer-ratp/information/"),
+        columns = ('code_postal', 'n_gare_ratp'),
+        manipulation: "Join two datasets to get only metro and RER stations, drop duplicate rows on stop name, then group by code postal and count ids."
+    },
+
+    dataidf-espace-verts:
+    {
+        title: "Data IDF - Espaces verts",
+        file: "dataidf-area-verts.csv",
+        link: "https://data.iledefrance.fr/explore/dataset/espaces-verts-et-boises-surfaciques-ouverts-ou-en-projets-douverture-au-public/information/",
+        columns = ('code_postal', 'n_area_verts', 'avg_area_ha'),
+        manipulation: "Group by code postal and count parks > 1 ha and calculate avg area in ha"
     }
 }
