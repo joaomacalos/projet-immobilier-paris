@@ -1,0 +1,37 @@
+{
+    data-demandes-valeurs-fonciers:
+    {
+        title: "Demandes de valeurs foncières",
+        file: 'dvf-data.csv',
+        link: https://www.data.gouv.fr/fr/datasets/demandes-de-valeurs-foncieres/,
+        description: https://www.data.gouv.fr/en/datasets/r/d573456c-76eb-4276-b91c-e6b9c89d6656,
+        columns: ('date_mutation',
+                    'nature_mutation', 
+                    'valeur_fonciere',
+                    'no_voie',
+                    'type_de_voie', 
+                    'code_voie', 
+                    'voie', 
+                    'code_postal',
+                    'commune', 
+                    'code_departement', 
+                    'code_commune',
+                    'section', 
+                    'no_plan', 
+                    'no_volume',
+                    'nombre_de_lots', 
+                    'code_type_local', 
+                    'type_local', 
+                    'surface_reelle_bati', 
+                    'nombre_pieces_principales', 
+                    'nature_culture',
+                    'nature_culture_speciale', 
+                    'surface_terrain',
+                    'year')
+    }
+
+    data-sncf:
+    {
+        
+    }
+}
