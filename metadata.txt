@@ -27,7 +27,7 @@
                     'nature_culture',
                     'nature_culture_speciale', 
                     'surface_terrain'),
-        manipulation: "New column: year"
+        manipulation: "New column: year, erase rows without `no_voie` or without `code_postal`"
     },
 
     dataidf-ecoles-et-lycees:
