@@ -84,5 +84,14 @@
         link: "https://data.iledefrance.fr/explore/dataset/espaces-verts-et-boises-surfaciques-ouverts-ou-en-projets-douverture-au-public/information/",
         columns = ('code_postal', 'n_area_verts', 'avg_area_ha'),
         manipulation: "Group by code postal and count parks > 1 ha and calculate avg area in ha"
-    }
+    },
+    
+    datavelib:
+    {
+        title: "velib - Geocoordinates",
+        file: "velibdatageoloc.csv",
+        link: "https://opendata.paris.fr/explore/dataset/velib-disponibilite-en-temps-reel/export/?disjunctive.name&disjunctive.is_installed&disjunctive.is_renting&disjunctive.is_returning&disjunctive.nom_arrondissement_communes&q=VELIB",
+        columns: ('index','nom_station','nom_commune','lat','lon')
+        manipulation: "Split geoloc in two colomns and clean data"        
+    },
 }
