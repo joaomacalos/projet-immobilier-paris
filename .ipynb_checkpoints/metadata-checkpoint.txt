@@ -1,0 +1,139 @@
+{
+    data-demandes-valeurs-fonciers:
+    {
+        title: "Demandes de valeurs foncières",
+        file: 'dvf-data.csv',
+        link: https://www.data.gouv.fr/fr/datasets/demandes-de-valeurs-foncieres/,
+        description: https://www.data.gouv.fr/en/datasets/r/d573456c-76eb-4276-b91c-e6b9c89d6656,
+        columns: ('date_mutation',
+                    'nature_mutation', 
+                    'valeur_fonciere',
+                    'no_voie',
+                    'type_de_voie', 
+                    'code_voie', 
+                    'voie', 
+                    'code_postal',
+                    'commune', 
+                    'code_departement', 
+                    'code_commune',
+                    'section', 
+                    'no_plan', 
+                    'no_volume',
+                    'nombre_de_lots', 
+                    'code_type_local', 
+                    'type_local', 
+                    'surface_reelle_bati', 
+                    'nombre_pieces_principales', 
+                    'nature_culture',
+                    'nature_culture_speciale', 
+                    'surface_terrain'),
+        manipulation: "New column: year, erase rows without `no_voie` or without `code_postal`"
+    },
+
+    dataidf-ecoles-et-lycees:
+    {
+        title: 'Ecoles IDF',
+        file: 'dataidf-ecoles.csv',
+        link: "https://data.iledefrance.fr/explore/dataset/les_etablissements_d_enseignement_des_1er_et_2d_degres_en_idf/information/?disjunctive.nature_uai&disjunctive.nature_uai_libe&disjunctive.code_departement&disjunctive.code_region&disjunctive.code_academie&disjunctive.secteur_prive_code_type_contrat&disjunctive.secteur_prive_libelle_type_contrat&disjunctive.code_ministere&disjunctive.libelle_ministere",
+        columns: ('nature', 'code_postal'),
+        manipulation: "Create column type_etablissement with 4 categories (maternelles, lycees, colleges, elementaire) and count the ocurrances of each by code_postal"
+    },
+
+    data-sncf-geocoordinates:
+    {
+        title: "SNCF - Geocoordinates",
+        file: "sncf-geocoordinates.csv",
+        link: "https://ressources.data.sncf.com/explore/dataset/referentiel-gares-voyageurs/information/?disjunctive.gare_ug_libelle&sort=gare_alias_libelle_noncontraint&dataChart=eyJxdWVyaWVzIjpbeyJjaGFydHMiOlt7InR5cGUiOiJ0cmVlbWFwIiwiZnVuYyI6IkNPVU5UIiwieUF4aXMiOiJuaXZlYXVzZXJ2aWNlX2xpYmVsbGUiLCJzY2llbnRpZmljRGlzcGxheSI6dHJ1ZSwiY29sb3IiOiJyYW5nZS1jdXN0b20ifV0sInhBeGlzIjoiZ2FyZV9yZWdpb25zbmNmX2xpYmVsbGUiLCJtYXhwb2ludHMiOiIiLCJ0aW1lc2NhbGUiOiIiLCJzb3J0IjoiIiwic2VyaWVzQnJlYWtkb3duIjoiIiwic2VyaWVzQnJlYWtkb3duVGltZXNjYWxlIjoiIiwiY29uZmlnIjp7ImRhdGFzZXQiOiJyZWZlcmVudGllbC1nYXJlcy12b3lhZ2V1cnMiLCJvcHRpb25zIjp7ImRpc2p1bmN0aXZlLmdhcmVfdWdfbGliZWxsZSI6dHJ1ZSwic29ydCI6ImdhcmVfYWxpYXNfbGliZWxsZV9ub25jb250cmFpbnQifX19XSwiZGlzcGxheUxlZ2VuZCI6dHJ1ZSwiYWxpZ25Nb250aCI6dHJ1ZSwidGltZXNjYWxlIjoiIn0%3D",
+        columns: ('code_uic', 'code_postal', 'code_departement', 'latitude', 'longitude')
+        manipulation: ""        
+    },
+
+    data-sncf-gare-count:
+    {
+        title: "SNCF - Count of gares per code postal",
+        file: "sncf-gare-count.csv",
+        link: "https://ressources.data.sncf.com/explore/dataset/referentiel-gares-voyageurs/information/?disjunctive.gare_ug_libelle&sort=gare_alias_libelle_noncontraint&dataChart=eyJxdWVyaWVzIjpbeyJjaGFydHMiOlt7InR5cGUiOiJ0cmVlbWFwIiwiZnVuYyI6IkNPVU5UIiwieUF4aXMiOiJuaXZlYXVzZXJ2aWNlX2xpYmVsbGUiLCJzY2llbnRpZmljRGlzcGxheSI6dHJ1ZSwiY29sb3IiOiJyYW5nZS1jdXN0b20ifV0sInhBeGlzIjoiZ2FyZV9yZWdpb25zbmNmX2xpYmVsbGUiLCJtYXhwb2ludHMiOiIiLCJ0aW1lc2NhbGUiOiIiLCJzb3J0IjoiIiwic2VyaWVzQnJlYWtkb3duIjoiIiwic2VyaWVzQnJlYWtkb3duVGltZXNjYWxlIjoiIiwiY29uZmlnIjp7ImRhdGFzZXQiOiJyZWZlcmVudGllbC1nYXJlcy12b3lhZ2V1cnMiLCJvcHRpb25zIjp7ImRpc2p1bmN0aXZlLmdhcmVfdWdfbGliZWxsZSI6dHJ1ZSwic29ydCI6ImdhcmVfYWxpYXNfbGliZWxsZV9ub25jb250cmFpbnQifX19XSwiZGlzcGxheUxlZ2VuZCI6dHJ1ZSwiYWxpZ25Nb250aCI6dHJ1ZSwidGltZXNjYWxlIjoiIn0%3D",
+        columns: ('code_uic', 'code_postal', 'code_departement'),
+        manipulation: "Group by `code_postal` and count gares (`code_uic`)"
+    },
+
+    data-ratp-geocoordinates:
+    {
+        title: "RATP - Geocoordinates",
+        file: "ratp-geocoordinates.csv",
+        link: ("https://data.ratp.fr/explore/dataset/positions-geographiques-des-stations-du-reseau-ratp/information/?disjunctive.stop_name",
+               "https://data.ratp.fr/explore/dataset/accessibilite-des-gares-et-stations-metro-et-rer-ratp/information/"),
+        columns: ('stop_id', 'code_departement', 'code_postal', 'stop_lat', 'stop_lon')
+        manipulation: "Join two datasets to get only metro and RER stations, drop duplicate rows on stop name"
+    },
+
+    data-ratp-gare-count:
+    {
+        title: "RATP - Count of gares per code postal",
+        file: "ratp-gare-count.csv",
+        link: ("https://data.ratp.fr/explore/dataset/positions-geographiques-des-stations-du-reseau-ratp/information/?disjunctive.stop_name",
+               "https://data.ratp.fr/explore/dataset/accessibilite-des-gares-et-stations-metro-et-rer-ratp/information/"),
+        columns = ('code_postal', 'n_gare_ratp'),
+        manipulation: "Join two datasets to get only metro and RER stations, drop duplicate rows on stop name, then group by code postal and count ids."
+    },
+
+    dataidf-espace-verts:
+    {
+        title: "Data IDF - Espaces verts",
+        file: "dataidf-area-verts.csv",
+        link: "https://data.iledefrance.fr/explore/dataset/espaces-verts-et-boises-surfaciques-ouverts-ou-en-projets-douverture-au-public/information/",
+        columns = ('code_postal', 'n_area_verts', 'avg_area_ha'),
+        manipulation: "Group by code postal and count parks > 1 ha and calculate avg area in ha"
+    },
+    
+    datavelib:
+    {
+        title: "velib - Geocoordinates",
+        file: "velibdatageoloc.csv",
+        link: "https://opendata.paris.fr/explore/dataset/velib-disponibilite-en-temps-reel/export/?disjunctive.name&disjunctive.is_installed&disjunctive.is_renting&disjunctive.is_returning&disjunctive.nom_arrondissement_communes&q=VELIB",
+        columns: ('index','nom_station','nom_commune','lat','lon')
+        manipulation: "Split geoloc in two colomns and clean data"        
+    },
+
+    insee-population:
+    {
+        title: "Population by postal code",
+        file: "insee-population2015.csv",
+        link: "https://data.opendatasoft.com/explore/dataset/code-postal-code-insee-2015%40public/export/",
+        columns: ('code_postal', 'nom_com', 'population'),
+        manipulation: ""
+    },
+
+    dvf-distance-sncf:
+    {
+        title: "Distance to SNCF stations",
+        file: "dvf-dist-sncf.csv",
+        link: "",
+        columns: ('adresse', 'code_postal', 'adresse_postal', 'postcode', 'latitude',
+                  'longitude', 'sncf_ngare1', 'sncf_ngare2', 'sncf_ngare3', 'sncf_min_distance'),
+        manipulation: "Distance between every adress in the database to each gare sncf was calculated with `distance` function from `geopy`, and four columns were created: number of stations at less than 1 km, less than 2 km, less than 3 km, and the distance (in km) to the closest station. See `gouvfr-collect_geodata_api` for information about how to download the geocodes from a csv file with adresses."
+    },
+
+    dvf-distance-ratp:
+    {
+        title: "Distance to RATP stations",
+        file: "dvf-dist-ratp.csv",
+        link: "",
+        columns: ('adresse', 'code_postal', 'adresse_postal', 'postcode', 'latitude',
+                  'longitude', 'ratp_ngare1', 'ratp_ngare2', 'ratp_ngare3', 'ratp_min_distance'),
+        manipulation: "Distance between every adress in the database to each gare ratp was calculated with `distance` function from `geopy`, and four columns were created: number of stations at less than 1 km, less than 2 km, less than 3 km, and the distance (in km) to the closest station. See `gouvfr-collect_geodata_api` for information about how to download the geocodes from a csv file with adresses."
+    
+
+    },
+
+    revenus2018:
+    {
+        title: "Income per code postal 2018",
+        file: "iris-revenus2018.csv",
+        link: "https://www.insee.fr/fr/statistiques/5055909",
+        columns: ("code_postal", "revenu_moyen"),
+        manipulation: "Find code_insee by taking first 5 digits of IRIS code, find code_postal by replacing 751 for 750, group by code_postal and calculate average of median income by IRIS section."
+    }
+
+    
+}

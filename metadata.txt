@@ -94,4 +94,46 @@
         columns: ('index','nom_station','nom_commune','lat','lon')
         manipulation: "Split geoloc in two colomns and clean data"        
     },
+
+    insee-population:
+    {
+        title: "Population by postal code",
+        file: "insee-population2015.csv",
+        link: "https://data.opendatasoft.com/explore/dataset/code-postal-code-insee-2015%40public/export/",
+        columns: ('code_postal', 'nom_com', 'population'),
+        manipulation: ""
+    },
+
+    dvf-distance-sncf:
+    {
+        title: "Distance to SNCF stations",
+        file: "dvf-dist-sncf.csv",
+        link: "",
+        columns: ('adresse', 'code_postal', 'adresse_postal', 'postcode', 'latitude',
+                  'longitude', 'sncf_ngare1', 'sncf_ngare2', 'sncf_ngare3', 'sncf_min_distance'),
+        manipulation: "Distance between every adress in the database to each gare sncf was calculated with `distance` function from `geopy`, and four columns were created: number of stations at less than 1 km, less than 2 km, less than 3 km, and the distance (in km) to the closest station. See `gouvfr-collect_geodata_api` for information about how to download the geocodes from a csv file with adresses."
+    },
+
+    dvf-distance-ratp:
+    {
+        title: "Distance to RATP stations",
+        file: "dvf-dist-ratp.csv",
+        link: "",
+        columns: ('adresse', 'code_postal', 'adresse_postal', 'postcode', 'latitude',
+                  'longitude', 'ratp_ngare1', 'ratp_ngare2', 'ratp_ngare3', 'ratp_min_distance'),
+        manipulation: "Distance between every adress in the database to each gare ratp was calculated with `distance` function from `geopy`, and four columns were created: number of stations at less than 1 km, less than 2 km, less than 3 km, and the distance (in km) to the closest station. See `gouvfr-collect_geodata_api` for information about how to download the geocodes from a csv file with adresses."
+    
+
+    },
+
+    revenus2018:
+    {
+        title: "Income per code postal 2018",
+        file: "iris-revenus2018.csv",
+        link: "https://www.insee.fr/fr/statistiques/5055909",
+        columns: ("code_postal", "revenu_moyen"),
+        manipulation: "Find code_insee by taking first 5 digits of IRIS code, find code_postal by replacing 751 for 750, group by code_postal and calculate average of median income by IRIS section."
+    }
+
+    
 }

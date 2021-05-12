@@ -1,0 +1,5 @@
+# For information, see: https://geo.api.gouv.fr/adresse
+
+# Execute the following line in the terminal
+curl -X POST -F data=@dvf-geocode.csv -F columns=adresse -F columns=postcode https://api-adresse.data.gouv.fr/search/csv/ >> dvf-geocoordinates.csv 
+
