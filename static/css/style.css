@@ -12,6 +12,12 @@ img.displayed {
 h1 {
   color: #21e49d;
 }
+h2 {
+  color: #21e49d;
+}
+.titreapp {
+  color: #21e49d;
+}
 
 .btn {
   background: #21e49d;
@@ -22,13 +28,12 @@ h1 {
   background: #21514a;
   border-color: transparent;
 }
-.bandeau {
-  font-family: "Courier New", Courier, monospace;
-  text-align: center;
-  padding-top: 30px;
-  background-color: #242531;
-  padding: 20px;
+.btn-sm {
+  background: #ffe237;
+  border-color: transparent;
 }
+
+
 .gitHub {
   font-family: "Courier New", Courier, monospace;
   text-align: center;
@@ -71,4 +76,17 @@ figcaption {
 }
 .darker:hover {
   filter: brightness(85%);
+}
+
+
+.bandeau {
+  font-family: "Courier New", Courier, monospace;
+  text-align: center;
+  padding-top: 100px;
+  background-color: #242531;
+
+}
+
+.fa, .fas {
+  font size: 2px;
 }
