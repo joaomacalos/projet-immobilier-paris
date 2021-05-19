@@ -2,3 +2,4 @@ data
 data/*
 tmp-data
 tmp-data/*
+.Rproj.user

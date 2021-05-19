@@ -20,7 +20,7 @@ df_main.columns
 
 # %% Keep only a subset of columns:
 columns_to_keep = [
-    'date_mutation', 'nature_mutation', 
+    'date_mutation', 'nature_mutation', 'type_local',
     'no_voie', 'type_de_voie', 'voie', 'code_postal', 
     'code_departement', 'code_commune', 'valeur_fonciere', 'section', 
     'nombre_de_lots', 'nombre_pieces_principales', 'commune', 
@@ -58,17 +58,18 @@ df_main.head()
 # %%
 df_main.query("code_insee.str.len() == 4", engine='python')
 # %% Save CSV with code_insee and adresse to collect geo-coordinates
-(df_main
-    .loc[:, ['code_insee', 'adresse']]
-    .drop_duplicates()
-    .to_csv('dvf-adresses.csv', index=False)
-)
+#(df_main
+#    .loc[:, ['code_insee', 'adresse']]
+#    .drop_duplicates()
+#    .to_csv('dvf-adresses.csv', index=False)
+#)
 
 # %%
 df_geo = pd.read_csv('dvf-geocoords.csv')
 
 # %% All adresses are in the same insee_code, great!
 df_geo.query("code_insee != result_citycode")
+df_geo = df_geo.query("code_insee == result_citycode")
 
 # %% Function to efficiently calculate the distance between two points
 # Source: https://stackoverflow.com/a/19414306/7705000
@@ -153,20 +154,43 @@ dist_sncf = pd.DataFrame(data = np.asarray(dist_to_sncf),
 
 # %%
 df_geo = pd.concat([df_geo, dist_ratp, dist_sncf], axis=1)
+df_geo = df_geo.dropna(subset=['result_citycode'])
+
+# %%
+df_geo.query("code_insee != result_citycode")
+# %%
+df_main.info()
+# %%
+df_geo = pd.read_csv('tmp-data/dvf-geo.csv').iloc[:, 1:]
+df_geo.head()
+# %%
+df_geo = (
+    df_geo
+    .dropna(subset=['n1_ratp'])
+)
+
+# %%
+df_geo.info()
+
 
 # %%
 df_main = pd.merge(
     df_main,
-    df_geo.assign(code_insee=lambda x: x.code_insee.astype('str')),
+    df_geo.assign(code_insee=lambda x: x.code_insee.astype('int').astype('str')),
     left_on=['code_insee', 'adresse'],
     right_on=['code_insee', 'adresse']
-)
+).drop_duplicates()
 
 # %%
 df_main.info()
+
+# %%
+df_geo.to_csv('tmp-data/dvf-geo.csv')
 # %%
 
 df_main.to_csv('dvf-main.csv')
+# %%
+df_main.info()
 
 # %% Create a DF with the code_insee to filter out info in the following tables
 code_insee = df_main[['code_insee']].drop_duplicates()
@@ -190,6 +214,8 @@ population = (
 population = (pd.merge(code_insee, population, left_on='code_insee', right_on='insee_com')
  .drop_duplicates()
 )
+population.info()
+# %%
 
 population.to_csv("data/insee-population2015.csv")
 
@@ -239,6 +265,9 @@ ecoles = (
     .pivot(index='code_insee', columns='nature', values='n')
     .reset_index()
 )
+
+# %%
+ecoles.head()
 
 # %%
 
@@ -321,6 +350,14 @@ velib = pd.merge(code_insee, velib, left_on='code_insee', right_on='insee', how=
 # %%
 velib.to_csv('velib.csv')
 # %% MERGE everything together
+velib = (
+    pd.read_csv('data/velib.csv')
+    .iloc[:, 1:]
+    .assign(code_insee=lambda x: x.code_insee.astype('str')
+))
+# %%
+velib.info()
+# %%
 
 df = pd.merge(df_main, population, left_on='code_insee', right_on='code_insee')
 # %%
@@ -362,7 +399,11 @@ df = (
 # %%
 df.info()
 # %%
-df.to_csv('data/data-final-clean.csv')
+cols_to_drop = [x for x in df.columns if 'result_' in x]
+df = df.drop(cols_to_drop, axis=1)
+df.info()
+# %%
+df.to_csv('data/data-final-clean2.csv')
 # %%
 sncf
 # %% Get code insee from government API and count gare per insee regions
@@ -409,4 +450,43 @@ ratp_insee = (
 ratp_insee
 # %%
 ratp_insee.to_csv('data/ratp-gare-count.csv', index=False)
+
+# %% NATURALIA
+data = pd.read_csv('data/data-final-clean2.csv').iloc[:, 1:]
+
 # %%
+naturalia = pd.read_csv('tmp-data/naturalia.csv')
+# %%
+data = (
+    pd.merge(
+        data, naturalia, how='left', left_on='code_insee', right_on='code_insee'
+    )
+    .fillna({'n_naturalia':0})
+    .assign(b_naturalia = lambda _: _.n_naturalia > 0)
+)
+
+# %% NEW STATIONS
+new_stations = pd.read_csv('data/new-stations.csv')
+new_stations.head()
+
+# %%
+new_stations = (
+    new_stations
+    .query("result_citycode == result_citycode")
+    .assign(code_insee = lambda _: _.result_citycode.astype('int'))
+    .loc[:, ['code_insee']]
+    .groupby('code_insee', as_index=False)
+    .agg(new_stations=('code_insee', 'count'))
+)
+
+# %%
+data = (
+    pd.merge(
+        data, new_stations, how='left', left_on='code_insee', right_on='code_insee'
+    )
+    .fillna({'new_stations':0})
+    .assign(b_stations=lambda _: _.new_stations > 0)
+)
+
+# %%
+data.to_csv('data/data-final-clean3.csv')
