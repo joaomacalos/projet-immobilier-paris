@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web-app Immobilier</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css"
+    />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+      crossorigin="anonymous"
+    />
+
+
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+  </head>
+  <body>
+
+
+
+    <h1 class="bandeau">Immobilier Web-App <div align="right"><a href="{{ url_for('about')}}"> <button class="btn btn btn-sm"><strong><font color="white">About Us</font> </strong></button> </a><a href="{{ url_for('index')}}"> <button class="btn btn btn-sm"><strong><font color="white">&nbsp;&nbsp;Home&nbsp;&nbsp;</font> </strong></button></a>&nbsp;&nbsp;&nbsp;</div></h1><br />
+<h2 class="titreapp" align="center">Estimation des prix au m<sup>2</sup></h2>
+
+
+
+
+ <form method="post"
+      class="mt-2"
+      style="
+        display: block;
+        max-width: 470px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 100px;
+        border: 5px solid #f5f6f7;
+        border-radius: 10px;
+      " align="center"
+    >
+<br />
+    
+
+    <table align="center">
+        <tbody>
+            <tr><td><label for="adresse"><strong>Adresse</strong> <font color="#ffe237">*</font color></label></td><td>
+              <input 
+              id="adresse"
+              name="adresse" 
+              type="text" 
+              placeholder="Adresse..."
+              value="{{ request.form['adresse'] }}" 
+              style="display: inline-block; width: 200px; border-radius: 10%; border-color: #21e49d"/ 
+              required
+              />
+            </td></tr>
+            <tr><td><label for="ville"><strong>Ville </strong><font color="#ffe237">*
+              </font color></label></td><td>
+                <select 
+                id="ville"
+                placeholder="Ville"
+                name="ville"
+                value="{{ request.form['ville'] }}"
+                style="display: inline-block; width: 200px; border-radius: 10%; border-color: #21e49d"
+                />
+              <option>Ablon-Sur-Seine</option>
+              <option>Alfortville</option>
+              <option>Antony</option>
+              <option>Arcueil</option>
+              <option>Asnieres-Sur-Seine</option>
+              <option>Aubervilliers</option>
+              <option>Aulnay-Sous-Bois</option>
+              <option>Bagneux</option>
+              <option>Bagnolet</option>
+              <option>Bobigny</option>
+              <option>Bois-Colombes</option>
+              <option>Boissy-Saint-Leger</option>
+              <option>Bondy</option>
+              <option>Bonneuil-Sur-Marne</option>
+              <option>Boulogne-Billancourt</option>
+              <option>Bourg-La-Reine</option>
+              <option>Bry-Sur-Marne</option>
+              <option>Cachan</option>
+              <option>Champigny-Sur-Marne</option>
+              <option>Charenton-Le-Pont</option>
+              <option>Chatenay-Malabry</option>
+              <option>Chatillon</option>
+              <option>Chaville</option>
+              <option>Chennevieres Sur Marne</option>
+              <option>Chevilly-Larue</option>
+              <option>Choisy-Le-Roi</option>
+              <option>Clamart</option>
+              <option>Clichy</option>
+              <option>Clichy-Sous-Bois</option>
+              <option>Colombes</option>
+              <option>Coubron</option>
+              <option>Courbevoie</option>
+              <option>Creteil</option>
+              <option>Drancy</option>
+              <option>Dugny</option>
+              <option>Epinay-Sur-Seine</option>
+              <option>Fontenay-Aux-Roses</option>
+              <option>Fontenay-Sous-Bois</option>
+              <option>Fresnes</option>
+              <option>Gagny</option>
+              <option>Garches</option>
+              <option>Gennevilliers</option>
+              <option>Gentilly</option>
+              <option>Gournay-Sur-Marne</option>
+              <option>Issy-Les-Moulineaux</option>
+              <option>Ivry-Sur-Seine</option>
+              <option>Joinville-Le-Pont</option>
+              <option>L'Hay-Les-Roses</option>
+              <option>L'Ile-Saint-Denis</option>
+              <option>La Courneuve</option>
+              <option>La Garenne-Colombes</option>
+              <option>La Queue-En-Brie</option>
+              <option>Le Blanc-Mesnil</option>
+              <option>Le Bourget</option>
+              <option>Le Kremlin-Bicetre</option>
+              <option>Le Perreux-Sur-Marne</option>
+              <option>Le Plessis-Robinson</option>
+              <option>Le Plessis-Trevise</option>
+              <option>Le Pre-Saint-Gervais</option>
+              <option>Le Raincy</option>
+              <option>Les Lilas</option>
+              <option>Les Pavillons-Sous-Bois</option>
+              <option>Levallois-Perret</option>
+              <option>Limeil-Brevannes</option>
+              <option>Livry-Gargan</option>
+              <option>Maisons-Alfort</option>
+              <option>Malakoff</option>
+              <option>Mandres-Les-Roses</option>
+              <option>Marnes-La-Coquette</option>
+              <option>Marolles-En-Brie</option>
+              <option>Meudon</option>
+              <option>Montfermeil</option>
+              <option>Montreuil</option>
+              <option>Montrouge</option>
+              <option>Nanterre</option>
+              <option>Neuilly-Plaisance</option>
+              <option>Neuilly-Sur-Marne</option>
+              <option>Neuilly-Sur-Seine</option>
+              <option>Nogent-Sur-Marne</option>
+              <option>Noiseau</option>
+              <option>Noisy-Le-Grand</option>
+              <option>Noisy-Le-Sec</option>
+              <option>Orly</option>
+              <option>Ormesson-Sur-Marne</option>
+              <option>Pantin</option>
+              <option>Paris 01</option>
+              <option>Paris 02</option>
+              <option>Paris 03</option>
+              <option>Paris 04</option>
+              <option>Paris 05</option>
+              <option>Paris 06</option>
+              <option>Paris 07</option>
+              <option>Paris 08</option>
+              <option>Paris 09</option>
+              <option>Paris 10</option>
+              <option>Paris 11</option>
+              <option>Paris 12</option>
+              <option>Paris 13</option>
+              <option>Paris 14</option>
+              <option>Paris 15</option>
+              <option>Paris 16</option>
+              <option>Paris 17</option>
+              <option>Paris 18</option>
+              <option>Paris 19</option>
+              <option>Paris 20</option>
+              <option>Perigny</option>
+              <option>Pierrefitte-Sur-Seine</option>
+              <option>Puteaux</option>
+              <option>Romainville</option>
+              <option>Rosny-Sous-Bois</option>
+              <option>Rueil-Malmaison</option>
+              <option>Rungis</option>
+              <option>Saint-Cloud</option>
+              <option>Saint-Denis</option>
+              <option>Saint-Mande</option>
+              <option>Saint-Maur-Des-Fosses</option>
+              <option>Saint-Ouen</option>
+              <option>Santeny</option>
+              <option>Sceaux</option>
+              <option>Sevran</option>
+              <option>Sevres</option>
+              <option>St Maurice</option>
+              <option>Stains</option>
+              <option>Sucy-En-Brie</option>
+              <option>Suresnes</option>
+              <option>Thiais</option>
+              <option>Tremblay-En-France</option>
+              <option>Valenton</option>
+              <option>Vanves</option>
+              <option>Vaucresson</option>
+              <option>Vaujours</option>
+              <option>Ville-D'Avray</option>
+              <option>Villecresnes</option>
+              <option>Villejuif</option>
+              <option>Villemomble</option>
+              <option>Villeneuve-La-Garenne</option>
+              <option>Villeneuve-Le-Roi</option>
+              <option>Villeneuve-Saint-Georges</option>
+              <option>Villepinte</option>
+              <option>Villetaneuse</option>
+              <option>Villiers-Sur-Marne</option>
+              <option>Vincennes</option>
+              <option>Vitry-Sur-Seine</option>
+          </select></tr>
+            
+        </tbody>
+    </table>
+
+     
+<br /><br />
+
+<p align="center">Type de logement:</p>
+
+<div align="center">
+  <input type="radio" id="apt" name="local" value="Appartement">
+  <label for="apt">Appartement</label>
+</div>
+
+
+<div align="center">
+  <input type="radio" id="maison" name="local" value="Maison">
+  <label for="maison">Maison</label>
+</div>
+
+
+<!--
+<div class="row gx-0">
+  <div class="col" align="center"> <strong>Type de logement</strong><font color="#ffe237">*</font color> <br />
+    <input 
+    type="radio" 
+    id="apt" 
+    name="apt" 
+    value="Appartement">
+    <label for="apt">Appartement </label>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input
+    type="radio"
+    id='maison'
+    name='maison'
+    value='Maison'>
+    <label for="maison">Maison</label>
+
+    
+      <input 
+    type="checkbox" 
+    name="pfm" 
+    value="linux" 
+    checked /> Appartement
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input
+      type="checkbox"
+      name="pfm"
+      value="dos"
+    />
+    Maison &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+   
+    <br />  <br />
+    
+    
+    </div>
+</div>
+-->
+
+      <div class="col-auto px-2" align="center">
+        <br /><button type="submit" class="btn btn-block">
+          <strong> Envoyer  <i class="fas fa-search"></i></strong>
+        </button>
+        <br /><br />
+
+         <div class="col-auto px-2" align="center"><button class="btn btn-primary btn-sm" disabled>Python</button>&nbsp;<button class="btn btn-primary btn-sm" disabled>Flask</button>&nbsp;<button class="btn btn-primary btn-sm" disabled>Heroku</button>&nbsp;<button class="btn btn-primary btn-sm" disabled>Jupyter Notebook</button>
+         <br/><br/>
+         
+         <button class="btn btn-primary btn-sm" disabled>HTML</button>&nbsp;<button class="btn btn-primary btn-sm" disabled>CSS</button>&nbsp;<button class="btn btn-primary btn-sm" disabled>GIT/GitHub</button> &nbsp;<button class="btn btn-primary btn-sm" disabled>Dash</button></div> <br/>
+
+      </div>
+    </form>
+
+
+
+ <main>
+        <div class="chartContainer"></div>
+      </main>
+
+
+
+
+
+
+
+        <div class="imgContainer">
+      <figure>
+        <img src="static/louise.png" class="trombi lighter" />
+        <figcaption>
+          Louise<br />
+          <a href="#"
+            ><img
+              src="static/twitterj.png"
+              onmouseover="this.src='static/twitterv.png'"
+              width="30px"
+              onmouseout="this.src='static/twitterj.png'"
+              width="30px"
+              onclick="this.src='static/twitterv.png'"
+              width="30px"
+          /></a>
+          <a href="#"
+            ><img
+              src="static/linkedinj.png"
+              onmouseover="this.src='static/linkedinv.png'"
+              width="30px"
+              onmouseout="this.src='static/linkedinj.png'"
+              width="30px"
+              onclick="this.src='static/linkedinv.png'"
+              width="30px"
+          /></a>
+          <a href="#"
+            ><img
+              src="static/githubj.png"
+              onmouseover="this.src='static/githubv.png'"
+              width="30px"
+              onmouseout="this.src='static/githubj.png'"
+              width="30px"
+              onclick="this.src='static/githubv.png'"
+              width="30px"
+          /></a>
+        </figcaption>
+      </figure>
+
+      <figure>
+        <img src="static/joao.png" class="trombi lighter" />
+        <figcaption>
+          João<br />
+          <a href="#"
+            ><img
+              src="static/twitterj.png"
+              onmouseover="this.src='static/twitterv.png'"
+              width="30px"
+              onmouseout="this.src='static/twitterj.png'"
+              width="30px"
+              onclick="this.src='static/twitterv.png'"
+              width="30px"
+          /></a>
+          <a href="#"
+            ><img
+              src="static/linkedinj.png"
+              onmouseover="this.src='static/linkedinv.png'"
+              width="30px"
+              onmouseout="this.src='static/linkedinj.png'"
+              width="30px"
+              onclick="this.src='static/linkedinv.png'"
+              width="30px"
+          /></a>
+          <a href="#"
+            ><img
+              src="static/githubj.png"
+              onmouseover="this.src='static/githubv.png'"
+              width="30px"
+              onmouseout="this.src='static/githubj.png'"
+              width="30px"
+              onclick="this.src='static/githubv.png'"
+              width="30px"
+          /></a>
+        </figcaption>
+      </figure>
+
+      <figure>
+        <img src="static/laure.png" class="trombi lighter" />
+        <figcaption>
+          Laure<br />
+          <a href="#"
+            ><img
+              src="static/twitterj.png"
+              onmouseover="this.src='static/twitterv.png'"
+              width="30px"
+              onmouseout="this.src='static/twitterj.png'"
+              width="30px"
+              onclick="this.src='static/twitterv.png'"
+              width="30px"
+          /></a>
+          <a href="#"
+            ><img
+              src="static/linkedinj.png"
+              onmouseover="this.src='static/linkedinv.png'"
+              width="30px"
+              onmouseout="this.src='static/linkedinj.png'"
+              width="30px"
+              onclick="this.src='static/linkedinv.png'"
+              width="30px"
+          /></a>
+          <a href="#"
+            ><img
+              src="static/githubj.png"
+              onmouseover="this.src='static/githubv.png'"
+              width="30px"
+              onmouseout="this.src='static/githubj.png'"
+              width="30px"
+              onclick="this.src='static/githubv.png'"
+              width="30px"
+          /></a>
+        </figcaption>
+      </figure>
+
+      <figure>
+        <img src="static/erwan.png" class="trombi lighter" />
+        <figcaption>
+          Erwan<br />
+          <a href="#"
+            ><img
+              src="static/twitterj.png"
+              onmouseover="this.src='static/twitterv.png'"
+              width="30px"
+              onmouseout="this.src='static/twitterj.png'"
+              width="30px"
+              onclick="this.src='static/twitterv.png'"
+              width="30px"
+          /></a>
+          <a href="#"
+            ><img
+              src="static/linkedinj.png"
+              onmouseover="this.src='static/linkedinv.png'"
+              width="30px"
+              onmouseout="this.src='static/linkedinj.png'"
+              width="30px"
+              onclick="this.src='static/linkedinv.png'"
+              width="30px"
+          /></a>
+          <a href="#"
+            ><img
+              src="static/githubj.png"
+              onmouseover="this.src='static/githubv.png'"
+              width="30px"
+              onmouseout="this.src='static/githubj.png'"
+              width="30px"
+              onclick="this.src='static/githubv.png'"
+              width="30px"
+          /></a>
+        </figcaption>
+      </figure>
+    </div>
+
+    <br />
+    
+    <div class="gitHub">
+      <a href="http://www.google.fr" target="_blank"> Open-source code </a
+      ><img src="static/githubj.png" width="30px" /> 
+     
+
+
+
+    </div>
+  </body>
+</html>

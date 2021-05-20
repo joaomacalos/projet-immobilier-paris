@@ -65,11 +65,14 @@ df_main.query("code_insee.str.len() == 4", engine='python')
 #)
 
 # %%
-df_geo = pd.read_csv('dvf-geocoords.csv')
+df_geo = pd.read_csv('data/dvf-geocoords.csv')
 
 # %% All adresses are in the same insee_code, great!
 df_geo.query("code_insee != result_citycode")
 df_geo = df_geo.query("code_insee == result_citycode")
+
+# %%
+df_geo
 
 # %% Function to efficiently calculate the distance between two points
 # Source: https://stackoverflow.com/a/19414306/7705000
@@ -222,6 +225,9 @@ population.to_csv("data/insee-population2015.csv")
 # %% ECOLES
 # Source: Metadata
 ecoles = pd.read_csv("tmp-data/les_etablissements_d_enseignement_des_1er_et_2d_degres_en_idf.csv", sep=';').clean_names()
+
+# %%
+ecoles.head()
 
 # %%
 ecoles = (
@@ -465,9 +471,110 @@ data = (
     .assign(b_naturalia = lambda _: _.n_naturalia > 0)
 )
 
+# %% NATURALIA DIST
+naturalia_dist = pd.read_csv('tmp-data/naturalia-dist.csv')
+
+# %%
+nat_lat = naturalia_dist.lat.to_numpy()
+nat_lon = naturalia_dist.lon.to_numpy()
+
+nat_coords = np.array([[nat_lat[i], nat_lon[i]] for i in range(len(nat_lat))])
+
+# %%
+import time
+start_time = time.time()
+dist_to_nat = list(map(
+    lambda x: retrieve_info(list(map(
+        lambda y: spherical_dist(x, y), nat_coords)
+        )), coords)
+    )
+
+print("Process finished --- %s seconds ---" % (time.time() - start_time))
+
+# %%
+dist_nat = pd.DataFrame(data = np.asarray(dist_to_nat),
+             columns=['n1_nat', 'n2_nat', 'n3_nat', 'dist_nat']
+)
+
+# %%
+df_geo_nat = (
+    df_geo
+    .assign(
+        n1_nat=dist_nat.n1_nat,
+        n2_nat=dist_nat.n2_nat,
+        n3_nat=dist_nat.n3_nat,
+        dist_nat=dist_nat.dist_nat)
+)
+
+# %%
+# df_geo_nat.to_csv('tmp-data/geo-nat.csv')
+df_geo = pd.read_csv("tmp-data/geo-nat.csv")
+
 # %% NEW STATIONS
 new_stations = pd.read_csv('data/new-stations.csv')
 new_stations.head()
+
+# %% DISTANCE TO NEW STATIONS
+new_lat = new_stations.latitude.to_numpy()
+new_lon = new_stations.longitude.to_numpy()
+
+new_coords = np.array([[new_lat[i], new_lon[i]] for i in range(len(new_lat))])
+
+# %%
+import time
+start_time = time.time()
+dist_to_new = list(map(
+    lambda x: retrieve_info(list(map(
+        lambda y: spherical_dist(x, y), new_coords)
+        )), coords)
+    )
+
+print("Process finished --- %s seconds ---" % (time.time() - start_time))
+
+# %%
+dist_new = pd.DataFrame(data = np.asarray(dist_to_new),
+             columns=['n1_new', 'n2_new', 'n3_new', 'dist_new']
+)
+
+df_geo = (
+    df_geo
+    .assign(
+        n1_new=dist_new.n1_new,
+        n2_new=dist_new.n2_new,
+        n3_new=dist_new.n3_new,
+        dist_new=dist_new.dist_new)
+)
+
+# %%
+data = pd.read_csv('data/data-final-clean3.csv').iloc[:, 1:]
+# %%
+data.adresse.head()
+# %%
+df_geo.loc[:, [
+        'adresse',
+        'n1_nat', 'n2_nat', 'n3_nat', 'dist_nat',
+        'n1_new', 'n2_new', 'n3_new', 'dist_new'
+    ]]
+
+# %%
+df_geo = df_geo.drop_duplicates(subset=['adresse'])
+
+# %%
+
+data = pd.merge(
+    data, df_geo.loc[:, [
+        'adresse',
+        'n1_nat', 'n2_nat', 'n3_nat', 'dist_nat',
+        'n1_new', 'n2_new', 'n3_new', 'dist_new'
+    ]],
+    how='left',
+    left_on='adresse',
+    right_on='adresse'
+).drop_duplicates()
+
+data.to_csv('data/data-final-clean4.csv', index=False)
+
+# %%
 
 # %%
 new_stations = (
@@ -490,3 +597,112 @@ data = (
 
 # %%
 data.to_csv('data/data-final-clean3.csv')
+
+# %% ECOLES DISTANCE
+ecoles = pd.read_csv("tmp-data/les_etablissements_d_enseignement_des_1er_et_2d_degres_en_idf.csv", sep=';').clean_names()
+
+# %%
+ecoles = (
+    ecoles
+    .assign(nature=lambda x: np.where(
+        x.nature.str.contains('LYCEE'),
+        'lycee',
+        np.where(
+            x.nature.str.contains('ELEMENTAIRE'),
+            'elementaire',
+            np.where(
+                x.nature.str.contains('MATERNELLE'),
+                'maternelle',
+                np.where(
+                    x.nature.str.contains('COLLEGE'),
+                    'college',
+                    'autres'
+                )
+                )
+            )
+        )
+    )
+)
+
+# %%
+pd.concat([ecoles[['nature']], ecoles.position.str.split(',')], 1).drop_duplicates()
+# %%
+ecoles.loc[:, ['nature', 'position']].drop_duplicates()
+# %%
+from janitor import clean_names
+velib = pd.read_csv('tmp-data/velib-disponibilite-en-temps-reel.csv', sep=';').clean_names()
+# %%
+velib_geo = (
+    velib.coordonnees_geographiques
+    .str.split(',', expand=True)
+    .rename(columns={0:'lat', 1:'lon'})
+    [['lat', 'lon']].apply(lambda x: pd.to_numeric(x))
+)
+
+# %%
+velib_geo.to_csv("data/velib-geo.csv", index=False)
+# %%
+velib_lat = velib_geo.lat.to_numpy()
+velib_lon = velib_geo.lon.to_numpy()
+# %%
+velib_coords = np.array([[velib_lat[i], velib_lon[i]] for i in range(len(velib_lat))])
+
+# %%
+velib_coords
+
+# %%
+import time
+start_time = time.time()
+dist_to_velib = list(map(
+    lambda x: retrieve_info(list(map(
+        lambda y: spherical_dist(x, y), velib_coords)
+        )), coords)
+    )
+
+print("Process finished --- %s seconds ---" % (time.time() - start_time))
+# %%
+df_geo = pd.read_csv("tmp-data/geo-nat.csv")
+# %%
+dist_velib = pd.DataFrame(data = np.asarray(dist_to_velib),
+             columns=['n1_velib', 'n2_velib', 'n3_velib', 'dist_velib']
+)
+
+df_geo = (
+    df_geo
+    .assign(
+        n1_velib=dist_velib.n1_velib,
+        n2_velib=dist_velib.n2_velib,
+        n3_velib=dist_velib.n3_velib,
+        dist_velib=dist_velib.dist_velib)
+)
+# %%
+df_geo = df_geo.drop_duplicates(subset=['adresse'])
+
+# %%
+
+data = pd.merge(
+    data, df_geo.loc[:, [
+        'adresse',
+        'n1_velib', 'n2_velib', 'n3_velib', 'dist_velib'
+    ]],
+    how='left',
+    left_on='adresse',
+    right_on='adresse'
+).drop_duplicates()
+# %%
+data.info()
+# %%
+data.to_csv('data/data-final-clean5.csv', index=False)
+# %%
+cities = (
+    cities
+    .assign(commune=lambda x: x.commune.str.title())
+)
+# %%
+cities = cities.sort_values('commune')
+# %%
+all_cities = list(cities.commune)
+# %%
+for i in all_cities:
+    print(f"<option>{i}</option>")
+# %%

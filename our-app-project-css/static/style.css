@@ -1,0 +1,90 @@
+img.trombi {
+  width: 200px;
+  align-items: center;
+  position: relative;
+}
+img.displayed {
+  margin: auto;
+  padding: 10%;
+  width: 100%;
+}
+
+h1 {
+  color: #21e49d;
+}
+h2 {
+  color: #242531;
+}
+.titreapp {
+  color: #21e49d;
+}
+
+.btn {
+  background: #21e49d;
+  border-color: transparent;
+}
+
+.btn:hover {
+  background: #21514a;
+  border-color: transparent;
+}
+.btn-sm {
+  background: #ffe237;
+  border-color: transparent;
+  margin-bottom: 10px;
+}
+
+.gitHub {
+  font-family: "Courier New", Courier, monospace;
+  text-align: center;
+  padding-top: 30px;
+  background-color: #242531;
+  padding: 20px;
+}
+
+.gitHub a:link {
+  color: #ffe237;
+  text-decoration: none;
+}
+
+.gitHub a:visited {
+  color: #ffe237;
+  text-decoration: none;
+}
+
+a {
+  color: #ffe237;
+  text-decoration: none;
+}
+
+.imgContainer {
+  display: flex;
+  justify-content: center;
+}
+
+figcaption {
+  /* Mettre une width correspondant à la largeur de l'image pour éviter que le texte ne dépasse */
+  width: 200px;
+  text-align: center;
+}
+
+.fond_image img:hover {
+  color: -50%;
+}
+.lighter:hover {
+  filter: brightness(110%);
+}
+.darker:hover {
+  filter: brightness(85%);
+}
+
+.bandeau {
+  font-family: "Courier New", Courier, monospace;
+  text-align: center;
+  padding-top: 20px;
+  background-color: #242531;
+}
+
+.border-1 {
+  border-color: #ffe237;
+}
