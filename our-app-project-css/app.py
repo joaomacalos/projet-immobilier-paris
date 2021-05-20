@@ -4,10 +4,14 @@ import numpy as np
 import scipy as sp
 import joblib
 import requests
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+mpl.use('Agg')
+import seaborn as sns
 
 
 app = Flask(__name__)
-
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 1
 
 @app.route('/', methods=('GET', 'POST'))
 def index():
@@ -23,9 +27,12 @@ def index():
 
             y_pred = loaded_model.predict(X)
 
+            generate_cb(y_pred[0])
+
             y_pred = int(y_pred[0])
 
-            message = 'Estimated price per squared meter: ' + str(y_pred) + ' Euros'
+            message = str(y_pred)
+
 
         except:
             return render_template('error.html')
@@ -42,40 +49,17 @@ def index():
 
     return render_template("index.html")
 
+
 @app.route('/about')
 def about():
     return render_template('about.html')
 
-'''
-def index():
-    if request.method == "POST":
-        title = request.form['title']
-
-        if not title:
-            flash('URL is required!')
-
-        else:
-            try:
-                message, df = find_wiki_way(title)
-                plot_wiki(df)
-            except:
-                return render_template('error.html')
-            
-            return render_template('arrive.html', message=message)
-
-    return render_template('index.html')
-'''
-    
-'''
-@def.route('/dash/') 
-    def dashboard():
-    return render_template("dashboard.html")
-
-@app.route('/404')
-def page_non_trouvee():
-    return "Cette page devrait vous avoir renvoyé une erreur 404"
-'''
-
+@app.after_request
+def add_header(response):
+    # response.cache_control.no_store = True
+    if 'Cache-Control' not in response.headers:
+        response.headers['Cache-Control'] = 'no-store'
+    return response
 
 if __name__ == '__main__':
     app.run(debug=True)
@@ -266,3 +250,43 @@ def get_all_infos(adresse, ville, local):
 
 # %%
 loaded_model = joblib.load('static/finalized_model.sav')
+
+
+# %% FIGURE
+def generate_cb(prediction):
+    message = lambda x: f'The estimated price is in the {x} quartile of estimated prices'
+
+    if prediction < 4133.1714:
+        msg = message('first')
+    elif prediction >= 4133.1714 and prediction < 6094.5:
+        msg = message('second')
+    elif prediction >= 6094.5 and prediction < 8245.85865773:
+        msg = message('third')
+    else:
+        msg = message('fourth')
+
+
+    normalize = mpl.colors.Normalize(vmin=2500, vmax=11500)
+    cmap = sns.color_palette("Spectral_r", as_cmap=True)
+    fig = plt.figure()
+    cbax = fig.add_axes([0.5, 0.5, 1.5, 0.5])
+    cb = mpl.colorbar.ColorbarBase(
+        cbax, 
+        cmap=cmap, 
+        norm=normalize, 
+        orientation='horizontal')
+
+    cb.ax.get_yaxis().set_ticks([])
+    
+    #cb.ax.text(x=prediction, y=5000, s=f'{prediction}', fontsize=16)
+    cb.ax.annotate(msg, (prediction, 8000),
+                xytext=(.6, -0.4), textcoords='axes fraction',
+                arrowprops=dict(facecolor='black', shrink=0.05),
+                fontsize=15,
+                horizontalalignment='center', verticalalignment='top')
+    cb.ax.set_xticklabels(
+        [str(int(x/1000)) + 'k' for x in range(3000, 12000, 1000)],
+        fontsize=12)
+    cb.ax.xaxis.tick_top()
+
+    fig.savefig('static/output.png', dpi=100, bbox_inches="tight")

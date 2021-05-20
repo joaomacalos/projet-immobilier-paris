@@ -198,6 +198,7 @@ print(f'MSE: {rmse}')
 print(f'R2: {r2}')
 
 # %%
+from sklearn.metrics import mean_squared_error, r2_score
 y_pred = linear_model.predict(X_train)
 mse = mean_squared_error(y_train, y_pred)
 rmse = np.sqrt(mse)
@@ -207,7 +208,7 @@ print(f'MSE: {rmse}')
 print(f'R2: {r2}')
 
 # %%
-max(y_pred)
+min(y_pred)
 
 
 # %%
@@ -347,4 +348,84 @@ joblib.dump(linear_model, filename)
 
 # %%
 
+# %%
+y2 = np.quantile(y_pred, q=[0.025, 0.25, .5, .75, .975])
+y2
+# %%
+y3 = [y for y in y_pred if y > y2[0] and y < y2[1]]
+y4 = np.array(y3)
+# %%
+y2[0]
+# %%
+ydf = pd.DataFrame({'Prediction':y3})
+# %%
+sns.heatmap(ydf, fmt="g", cmap='viridis')
+# %%
+sns.barplot(data=ydf, x='Prediction', palette='Spectral')
+# %%
+sns.color_palette("Spectral", as_cmap=True)
+# %%
+import matplotlib as mpl
+from matplotlib.colors import ListedColormap
+
+# Some Test data
+normalize = mpl.colors.Normalize(vmin=2500, vmax=11500)
+cmap = sns.color_palette("Spectral_r", as_cmap=True)
+fig = plt.figure()
+cbax = fig.add_axes([0.5, 0.5, 1.5, 0.5])
+cb = mpl.colorbar.ColorbarBase(
+    cbax, 
+    cmap=cmap, 
+    norm=normalize, 
+    orientation='horizontal')
+
+cb.ax.get_yaxis().set_ticks([])
+cb.ax.annotate('race interrupted', (4000, 2500),
+            xytext=(.6, -0.4), textcoords='axes fraction',
+            arrowprops=dict(facecolor='black', shrink=0.05),
+            fontsize=16,
+            horizontalalignment='right', verticalalignment='top')
+
+    
+# %%
+def generate_cb(prediction):
+    message = lambda x: f'The estimated price is in the {x} quartile of estimated prices'
+
+    if prediction < 4133.1714:
+        msg = message('first')
+    elif prediction >= 4133.1714 and prediction < 6094.5:
+        msg = message('second')
+    elif prediction >= 6094.5 and prediction < 8245.85865773:
+        msg = message('third')
+    else:
+        msg = message('fourth')
+
+
+    normalize = mpl.colors.Normalize(vmin=2500, vmax=11500)
+    cmap = sns.color_palette("Spectral_r", as_cmap=True)
+    fig = plt.figure()
+    cbax = fig.add_axes([0.5, 0.5, 1.5, 0.5])
+    cb = mpl.colorbar.ColorbarBase(
+        cbax, 
+        cmap=cmap, 
+        norm=normalize, 
+        orientation='horizontal')
+
+    cb.ax.get_yaxis().set_ticks([])
+    
+    #cb.ax.text(x=prediction, y=5000, s=f'{prediction}', fontsize=16)
+    cb.ax.annotate(msg, (prediction, 8000),
+                xytext=(.6, -0.4), textcoords='axes fraction',
+                arrowprops=dict(facecolor='black', shrink=0.05),
+                fontsize=15,
+                horizontalalignment='center', verticalalignment='top')
+    cb.ax.set_xticklabels(
+        [str(int(x/1000)) + 'k' for x in range(3000, 12000, 1000)],
+        fontsize=12)
+    cb.ax.xaxis.tick_top()
+
+    fig.savefig('test.png', dpi=200, bbox_inches="tight")
+
+# %%
+generate_cb(3507)
 # %%

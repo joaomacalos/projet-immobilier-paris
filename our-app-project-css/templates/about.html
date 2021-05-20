@@ -26,8 +26,8 @@
 
 
     <h1 class="bandeau">Immobilier Web-App <div align="right"><a href="{{ url_for('about')}}"> 
-      <button class="btn btn btn-sm"><strong><font color="white">About Us</font> </strong></button></a>
-      <a href="{{ url_for('index')}}"> <button class="btn btn btn-sm"><strong><font color="white">&nbsp;&nbsp;Home&nbsp;&nbsp;</font> </strong></button></a>&nbsp;&nbsp;&nbsp;</div></h1><br />
+      <button class="btn btn btn-sm"><strong><font color="black">About Us</font> </strong></button></a>
+      <a href="{{ url_for('index')}}"> <button class="btn btn btn-sm"><strong><font color="black">&nbsp;&nbsp;Home&nbsp;&nbsp;</font> </strong></button></a>&nbsp;&nbsp;&nbsp;</div></h1><br />
 
 
 
@@ -37,42 +37,185 @@
 <div class="jumbotron">
         <div class="container">
           <h1 class="display-3">Notre projet Immo</h1>
-          <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-          <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>
-        </div>
-</div>
-<div class="container">
-        
-        <div class="row">
-          <div class="col-md-4">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
-          </div>
-         
-          </div>
-        </div>
-</div>
+          <p>This Web-App is the result of our final project at the DataBird
+            bootcamp.
+            It's objective is to estimate the price per square meter of Parisian
+            real estate based on data available <a href='https://www.data.gouv.fr/fr/datasets/demandes-de-valeurs-foncieres/' style="color:blue">here.</a>
+          </p>
 
+
+        </div>
+</div>
         <hr>
 
 
 
 
-        
-
-
-<br /><br />
-   
-
-
-<div 
-class="gitHub"
-style="position: fixed; bottom: 0; width: 100%"
->
-    <a href="http://www.google.fr" target="_blank"> Open-source code </a
-    ><img src="static/githubj.png" width="30px" /> 
+        <main>
+          <div class="chartContainer"></div>
+        </main>
   
- </div>
+  
+  
+  
+  
+  
+        <div class="imgContainer">
+        <figure>
+          <img src="static/joao.png" class="trombi lighter" />
+          <figcaption>
+            João Macalós<br />
+            <a href="#"
+              ><img
+                src="static/twitterj.png"
+                onmouseover="this.src='static/twitterv.png'"
+                width="30px"
+                onmouseout="this.src='static/twitterj.png'"
+                width="30px"
+                onclick="this.src='static/twitterv.png'"
+                width="30px"
+            /></a>
+            <a href="#"
+              ><img
+                src="static/linkedinj.png"
+                onmouseover="this.src='static/linkedinv.png'"
+                width="30px"
+                onmouseout="this.src='static/linkedinj.png'"
+                width="30px"
+                onclick="this.src='static/linkedinv.png'"
+                width="30px"
+            /></a>
+            <a href="#"
+              ><img
+                src="static/githubj.png"
+                onmouseover="this.src='static/githubv.png'"
+                width="30px"
+                onmouseout="this.src='static/githubj.png'"
+                width="30px"
+                onclick="this.src='static/githubv.png'"
+                width="30px"
+            /></a>
+          </figcaption>
+        </figure>
+
+        <figure>
+            <img src="static/louise.png" class="trombi lighter" />
+            <figcaption>
+              Louise Amsellem<br />
+              <a href="#"
+                ><img
+                  src="static/twitterj.png"
+                  onmouseover="this.src='static/twitterv.png'"
+                  width="30px"
+                  onmouseout="this.src='static/twitterj.png'"
+                  width="30px"
+                  onclick="this.src='static/twitterv.png'"
+                  width="30px"
+              /></a>
+              <a href="#"
+                ><img
+                  src="static/linkedinj.png"
+                  onmouseover="this.src='static/linkedinv.png'"
+                  width="30px"
+                  onmouseout="this.src='static/linkedinj.png'"
+                  width="30px"
+                  onclick="this.src='static/linkedinv.png'"
+                  width="30px"
+              /></a>
+              <a href="#"
+                ><img
+                  src="static/githubj.png"
+                  onmouseover="this.src='static/githubv.png'"
+                  width="30px"
+                  onmouseout="this.src='static/githubj.png'"
+                  width="30px"
+                  onclick="this.src='static/githubv.png'"
+                  width="30px"
+              /></a>
+            </figcaption>
+          </figure>
+  
+        <figure>
+          <img src="static/laure.png" class="trombi lighter" />
+          <figcaption>
+            Laure Agrech<br />
+            <a href="#"
+              ><img
+                src="static/twitterj.png"
+                onmouseover="this.src='static/twitterv.png'"
+                width="30px"
+                onmouseout="this.src='static/twitterj.png'"
+                width="30px"
+                onclick="this.src='static/twitterv.png'"
+                width="30px"
+            /></a>
+            <a href="#"
+              ><img
+                src="static/linkedinj.png"
+                onmouseover="this.src='static/linkedinv.png'"
+                width="30px"
+                onmouseout="this.src='static/linkedinj.png'"
+                width="30px"
+                onclick="this.src='static/linkedinv.png'"
+                width="30px"
+            /></a>
+            <a href="#"
+              ><img
+                src="static/githubj.png"
+                onmouseover="this.src='static/githubv.png'"
+                width="30px"
+                onmouseout="this.src='static/githubj.png'"
+                width="30px"
+                onclick="this.src='static/githubv.png'"
+                width="30px"
+            /></a>
+          </figcaption>
+        </figure>
+  
+        <figure>
+          <img src="static/erwan.png" class="trombi lighter" />
+          <figcaption>
+            Erwan de Villechabrolle<br />
+            <a href="#"
+              ><img
+                src="static/twitterj.png"
+                onmouseover="this.src='static/twitterv.png'"
+                width="30px"
+                onmouseout="this.src='static/twitterj.png'"
+                width="30px"
+                onclick="this.src='static/twitterv.png'"
+                width="30px"
+            /></a>
+            <a href="#"
+              ><img
+                src="static/linkedinj.png"
+                onmouseover="this.src='static/linkedinv.png'"
+                width="30px"
+                onmouseout="this.src='static/linkedinj.png'"
+                width="30px"
+                onclick="this.src='static/linkedinv.png'"
+                width="30px"
+            /></a>
+            <a href="#"
+              ><img
+                src="static/githubj.png"
+                onmouseover="this.src='static/githubv.png'"
+                width="30px"
+                onmouseout="this.src='static/githubj.png'"
+                width="30px"
+                onclick="this.src='static/githubv.png'"
+                width="30px"
+            /></a>
+          </figcaption>
+        </figure>
+      </div>
+  
+      <br />
+      
+      <div class="gitHub" style="position: fixed; bottom: 0; width: 100%">
+        <a href="https://github.com/joaomacalos/projet-immobilier-paris" target="_blank"> Open-source code </a
+        ><img src="static/githubj.png" width="30px" /> 
+      </div>
+
   </body>
 </html>
