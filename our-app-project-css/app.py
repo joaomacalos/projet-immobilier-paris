@@ -23,7 +23,7 @@ def index():
         local = request.form["local"]
 
         try:
-            X = get_all_infos(adresse, ville, local)
+            X, address = get_all_infos(adresse, ville, local)
 
             y_pred = loaded_model.predict(X)
 
@@ -39,7 +39,8 @@ def index():
 
         return render_template(
             'arrive.html', 
-            message=message
+            message=message,
+            address=address
             )
     
     #if not adresse:
@@ -86,19 +87,21 @@ def get_geocords(address, insee):
 
     response_json = response.json()['features'][0]
 
+    address = response_json['properties']['label']
+
     if response_json['properties']['score'] < 0.5:
         raise ValueError('Invalid address...')
     else:
         longitude, latitude = response_json['geometry']['coordinates']
 
-    return longitude, latitude
+    return longitude, latitude, address
 
 def extract_query(address, city):
 
     insee = get_citycode(city)
-    longitude, latitude = get_geocords(address, insee)
+    longitude, latitude, address = get_geocords(address, insee)
 
-    return insee, longitude, latitude
+    return insee, longitude, latitude, address
 
 # %%
 #insee, lon, lat = extract_query('5 rue roger poncelet', 'ASNIERES-SUR-SEINE')
@@ -204,7 +207,7 @@ cat_cols = ['year', 'type_local', 'code_insee', 'code_departement']
 
 def get_all_infos(adresse, ville, local):
     
-    insee, lon, lat = extract_query(adresse, ville)
+    insee, lon, lat, address = extract_query(adresse, ville)
 
     gare_proche, gare_proche_sq, n3_sncf, dist_new, n3_velib = get_dist_infos(lat, lon)
 
@@ -243,7 +246,7 @@ def get_all_infos(adresse, ville, local):
 
     df = df.loc[:, relevant_cols]
 
-    return df
+    return df, address
 
 # %%
 #X = get_all_infos('5 rue roger poncelet', 'ASNIERES-SUR-SEINE', 'Appartement')
@@ -254,16 +257,17 @@ loaded_model = joblib.load('static/finalized_model.sav')
 
 # %% FIGURE
 def generate_cb(prediction):
-    message = lambda x: f'The estimated price is in the {x} quartile of Parisian/Pettite Couronne prices'
+    #message = lambda x: f'The estimated price is in the {x} quartile of Parisian/Pettite Couronne prices'
+    message = lambda x: f'Le prix estimé est dans le {x} quartile des prix de Paris/Petite Couronne'
 
     if prediction < 4133.1714:
-        msg = message('first')
+        msg = message('première')
     elif prediction >= 4133.1714 and prediction < 6094.5:
-        msg = message('second')
+        msg = message('deuxième')
     elif prediction >= 6094.5 and prediction < 8245.85865773:
-        msg = message('third')
+        msg = message('troisième')
     else:
-        msg = message('fourth')
+        msg = message('quatrième')
 
 
     normalize = mpl.colors.Normalize(vmin=2500, vmax=11500)
