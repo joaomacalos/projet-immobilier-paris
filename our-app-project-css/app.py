@@ -254,7 +254,7 @@ loaded_model = joblib.load('static/finalized_model.sav')
 
 # %% FIGURE
 def generate_cb(prediction):
-    message = lambda x: f'The estimated price is in the {x} quartile of estimated prices'
+    message = lambda x: f'The estimated price is in the {x} quartile of Parisian/Pettite Couronne prices'
 
     if prediction < 4133.1714:
         msg = message('first')
