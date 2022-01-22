@@ -429,3 +429,29 @@ def generate_cb(prediction):
 # %%
 generate_cb(3507)
 # %%
+import requests
+
+cities = pd.read_csv('data/cities-clean.csv')
+
+def get_citycode(city):
+    df = cities[cities.commune == city]
+    return df.reset_index().code_insee[0]
+
+def get_geocords(address, insee):
+    address = str(address)
+    insee = str(insee)
+    
+    params = (
+        ('q', address),
+        ('citycode', insee)
+    )
+
+    response = requests.get('https://api-adresse.data.gouv.fr/search/', params=params)
+
+    response_json = response.json()['features'][0]
+    return response_json
+# %%
+response = get_geocords('1 boulevard lenine', '93008')
+# %%
+response['properties']['label']
+# %%
