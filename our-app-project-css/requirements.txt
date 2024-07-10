@@ -6,3 +6,4 @@ Jinja2==3.0.0
 MarkupSafe==2.0.0
 Werkzeug==2.2.3
 setuptools>=65.5.1 # not directly required, pinned by Snyk to avoid a vulnerability
+zipp>=3.19.1 # not directly required, pinned by Snyk to avoid a vulnerability
